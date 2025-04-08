@@ -1,6 +1,6 @@
 #initial attempt
 
-from flask import flask
+from flask import Flask
 from flask_cors import CORS #frontend requests
 from flask_jwt_extended import JWTManager #import for token
 from flask_sqlalchemy import SQLAlchemy #db import

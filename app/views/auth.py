@@ -9,7 +9,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-#from models import db,  (importing the extension and db tables we'd be using)
+from models import db, User
 import datetime
 
 auth_bp = Blueprint('auth', __name__) #creating bp
@@ -37,8 +37,8 @@ def register():
     return jsonify({"message": "User registered successfully"}), 201 
 
     #route for user login and jwt token generation
-    @auth_bp.route('/api/auth/login', methods=['POST'])
-    def login():
+@auth_bp.route('/api/auth/login', methods=['POST'])
+def login():
         data = request.get_json()
         user = User.query.filter_by(username=data['username']).first() #queries db
         #validation
@@ -48,8 +48,8 @@ def register():
         return jsonify({"token": access_token, "user_id": user.id}), 200
 
     #protected logout route
-    @auth_bp.route('/api/auth/logout', methods=['POST'])
-    @jwt_required()
-    def logout():
+@auth_bp.route('/api/auth/logout', methods=['POST'])
+@jwt_required()
+def logout():
         #confirm end of session on client side
         return jsonify({"message": "User logged out successfully"}), 200

@@ -10,7 +10,7 @@
 #imports
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-#from models import db, ...
+from models import db, Profile, User, Favourite
 from sqlalchemy import func
 from datetime import datetime
 
@@ -61,7 +61,7 @@ def add_profile():
 @jwt_required()
 def get_profile_details(profile_id):
     profile = Profile.query.get_or_404(profile_id)
-    return jsonify(p_to_dict(p))
+    return jsonify(p_to_dict(profile))
 
 #add profile/user to favourites
 @profile_bp.route('/api/profiles/<int:user_id>/favourite', methods=['POST'])

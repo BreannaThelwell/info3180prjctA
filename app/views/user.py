@@ -9,7 +9,7 @@
 #imports
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-#from models import db, ....
+from models import db, User, Profile, Favourite
 from sqlalchemy import func
 from datetime import datetime 
 
@@ -37,13 +37,13 @@ def get_user_details(user_id):
 @user_bp.route('/api/users/<int:user_id>/favourites', methods=['GET'])
 @jwt_required()
 def get_user_favourites(user_id):
-  favs = Favourite.query.filter_by(user_id=user_id).all()
+    favs = Favourite.query.filter_by(user_id=user_id).all()
     results = []
     for f in favs:
         u = User.query.get(f.fav_user_id)
         if u:
             results.append({'id': u.id, 'name': u.name})
-    return jsonify(result) 
+    return jsonify(results) 
 
 #GET top n favoured users system-wide
 #restricted to logged-in users

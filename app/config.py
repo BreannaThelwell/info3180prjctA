@@ -1,7 +1,7 @@
 #initial attempt
 
 import os #required import
-import dotenv import load_dotenv #required import
+from dotenv import load_dotenv  # required import
 
 load_dotenv()  #load environment variables from .env
 
