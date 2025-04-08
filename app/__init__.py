@@ -4,7 +4,7 @@ from flask import flask
 from flask_cors import CORS #frontend requests
 from flask_jwt_extended import JWTManager #import for token
 from flask_sqlalchemy import SQLAlchemy #db import
-from flask_migrate import MIgrate #db import
+from flask_migrate import Migrate #db import
 from views.auth import auth_bp #bp import
 from views.user import user_bp #bp import
 from views.profile import profile_bp #bp import
