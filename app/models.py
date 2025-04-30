@@ -16,7 +16,7 @@ class User(db.Model):
     
     
     profiles = db.relationship('Profile', backref='user', lazy=True)
-    favorites = db.relationship('Favourite', foreign_keys='Favourite.user_id', backref='favoriter', lazy=True)
+    favorites = db.relationship('Favourite', foreign_keys='Favourite.user_id_fk', backref='favoriter', lazy=True)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
