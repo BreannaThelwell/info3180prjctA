@@ -1,5 +1,14 @@
 <template>
   <div class="home">
+    <nav class="navbar">
+      <a href="/">Home</a>
+      <a v-if="!isLoggedIn" href="/register">Register</a>
+      <a v-if="!isLoggedIn" href="/login">Login</a>
+      <a v-if="isLoggedIn" href="/profiles/favourites">Reports</a>
+      <a v-if="isLoggedIn" href="/profiles/new">Add Profile</a>
+      <a v-if="isLoggedIn" @click="logout">Logout</a>
+    </nav>
+
     <h1>Welcome to Jam Date!</h1>
 
     <div class="search-bar">
@@ -31,6 +40,11 @@ export default {
       searchQuery: ''
     }
   },
+  computed: {
+    isLoggedIn() {
+      return !!localStorage.getItem('token')
+    }
+  },
   methods: {
     async fetchProfiles() {
       try {
@@ -47,6 +61,11 @@ export default {
       } catch (err) {
         console.error('Search failed:', err)
       }
+    },
+    logout() {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user_id')
+      window.location.href = '/login'
     }
   },
   created() {
@@ -62,9 +81,21 @@ export default {
   padding: 20px;
 }
 
-h1 {
-  text-align: center;
-  color: #006400; /* Green for Jamaican theme */
+.navbar {
+  display: flex;
+  gap: 15px;
+  background: #007bff;
+  padding: 10px;
+  color: white;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
 }
 
 .search-bar {
@@ -79,15 +110,15 @@ h1 {
 }
 
 .profile-card {
-  border: 2px solid #ffd700; /* Yellow border for Jamaican theme */
+  border: 1px solid #ccc;
   padding: 15px;
   background-color: white;
   border-radius: 5px;
 }
 
 .btn-primary {
-  background-color: #000; /* Black for Jamaican theme */
-  color: #ffd700; /* Yellow text */
+  background-color: #007bff;
+  color: white;
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
@@ -95,20 +126,19 @@ h1 {
 }
 
 .btn-primary:hover {
-  background-color: #006400; /* Green hover effect */
+  background-color: #0056b3;
 }
 
 .btn-secondary {
-  background-color: #ffd700; /* Yellow for Jamaican theme */
-  color: #000; /* Black text */
+  background-color: #6c757d;
+  color: white;
   padding: 5px 10px;
   border-radius: 5px;
   text-decoration: none;
 }
 
 .btn-secondary:hover {
-  background-color: #006400; /* Green hover effect */
-  color: white;
+  background-color: #5a6268;
 }
 </style>
 

@@ -7,7 +7,7 @@
     </div>
 
     <div v-if="matches.length" class="matches-section">
-      <h3>Your Matches</h3>
+      <h3>Matches</h3>
       <ul>
         <li v-for="m in matches" :key="m.id" class="match-item">
           {{ m.name }}
@@ -63,13 +63,11 @@ export default {
 h2 {
   text-align: center;
   color: #333;
-  font-weight: bold;
-  color: #006400; /* Subtle green for Jamaican theme */
 }
 
 .profile-card {
   background: #fff;
-  border: 2px solid #ffd700; /* Yellow border for Jamaican theme */
+  border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 15px;
@@ -81,8 +79,8 @@ h2 {
 }
 
 .btn-primary {
-  background-color: #000; /* Black for Jamaican theme */
-  color: #ffd700; /* Yellow text */
+  background-color: #007bff;
+  color: white;
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
@@ -91,14 +89,14 @@ h2 {
 }
 
 .btn-primary:hover {
-  background-color: #006400; /* Green hover effect */
+  background-color: #0056b3;
 }
 
 .matches-section {
   margin-top: 20px;
   padding: 15px;
   background: #fff;
-  border: 2px solid #006400; /* Green border for Jamaican theme */
+  border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -106,7 +104,6 @@ h2 {
 .matches-section h3 {
   margin-bottom: 10px;
   color: #333;
-  font-weight: bold;
 }
 
 .match-item {
