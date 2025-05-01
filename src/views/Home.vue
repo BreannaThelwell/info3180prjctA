@@ -1,32 +1,38 @@
 <template>
   <div class="home">
-    <nav class="navbar">
-      <a href="/">Home</a>
-      <a v-if="!isLoggedIn" href="/register">Register</a>
-      <a v-if="!isLoggedIn" href="/login">Login</a>
-      <a v-if="isLoggedIn" href="/profiles/favourites">Reports</a>
-      <a v-if="isLoggedIn" href="/profiles/new">Add Profile</a>
-      <a v-if="isLoggedIn" @click="logout">Logout</a>
-    </nav>
+    <!-- Main Content -->
+    <section class="content">
+      <h1>Welcome to JamDate!</h1>
+      <p class="subtitle">Find your perfect match today.</p>
 
-    <h1>Welcome to Jam Date!</h1>
-
-    <div class="search-bar">
-      <input v-model="searchQuery" placeholder="Search by name, birth year, sex, or race..." />
-      <button @click="searchProfiles" class="btn-primary">Search</button>
-    </div>
-
-    <div class="profile-list">
-      <h2>Recent Profiles</h2>
-      <div v-if="profiles.length === 0">No profiles found.</div>
-      <div v-for="profile in profiles" :key="profile.id" class="profile-card">
-        <p><strong>Name:</strong> {{ profile.name }}</p>
-        <p><strong>Birth Year:</strong> {{ profile.birth_year }}</p>
-        <p><strong>Sex:</strong> {{ profile.sex }}</p>
-        <p><strong>Race:</strong> {{ profile.race }}</p>
-        <router-link :to="`/profiles/${profile.id}`" class="btn-secondary">View Details</router-link>
+      <!-- Search Bar -->
+      <div class="search-container">
+        <input 
+          v-model="searchQuery" 
+          placeholder="Search by name, birth year, sex, or race..." 
+          class="search-input"
+          @keyup.enter="searchProfiles"
+        />
+        <button @click="searchProfiles" class="search-btn">Search</button>
       </div>
-    </div>
+
+      <!-- Recent Profiles -->
+      <div class="profiles-section">
+        <h2>Recent Profiles</h2>
+        <div v-if="profiles.length === 0" class="no-profiles">No profiles found.</div>
+        <div class="profiles-grid">
+          <div v-for="profile in profiles" :key="profile.id" class="profile-card">
+            <div class="profile-content">
+              <p><strong>Name:</strong> {{ profile.name }}</p>
+              <p><strong>Birth Year:</strong> {{ profile.birth_year }}</p>
+              <p><strong>Sex:</strong> {{ profile.sex }}</p>
+              <p><strong>Race:</strong> {{ profile.race }}</p>
+            </div>
+            <router-link :to="`/profiles/${profile.id}`" class="view-details-btn">View Details</router-link>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -48,24 +54,34 @@ export default {
   methods: {
     async fetchProfiles() {
       try {
-        const res = await axios.get('/profiles')
-        this.profiles = res.data.slice(-4).reverse()
+        const res = await axios.get('/api/profiles')
+        this.profiles = res.data.slice(-4).reverse() // Display last 4 profiles
       } catch (err) {
-        console.error('Error fetching profiles:', err)
+        console.error('Error fetching profiles:', err.response?.data || err.message)
+        this.profiles = []
       }
     },
     async searchProfiles() {
       try {
-        const res = await axios.get(`/search?query=${this.searchQuery}`)
+        // Parse searchQuery into parameters
+        const params = new URLSearchParams()
+        const terms = this.searchQuery.split(',').map(t => t.trim())
+        terms.forEach(term => {
+          if (/^\d{4}$/.test(term)) params.set('birth_year', term)
+          else if (['male', 'female', 'other'].includes(term.toLowerCase())) params.set('sex', term.toLowerCase())
+          else if (term) params.append('name', term) // Assuming name can be partial
+        })
+        const res = await axios.get(`/api/search?${params.toString()}`)
         this.profiles = res.data
       } catch (err) {
-        console.error('Search failed:', err)
+        console.error('Search failed:', err.response?.data || err.message)
+        this.profiles = []
       }
     },
     logout() {
       localStorage.removeItem('token')
       localStorage.removeItem('user_id')
-      window.location.href = '/login'
+      this.$router.push('/login')
     }
   },
   created() {
@@ -76,69 +92,132 @@ export default {
 
 <style scoped>
 .home {
-  max-width: 800px;
+  max-width: auto;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #fefefe, #ffe0dc);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
 }
 
-.navbar {
+.content {
+  text-align: center;
+}
+
+h1 {
+  color: #ff6f61;
+  font-size: 48px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+
+.search-container {
   display: flex;
+  justify-content: center;
+  margin: 30px 0;
   gap: 15px;
-  background: #007bff;
-  padding: 10px;
+}
+
+.search-input {
+  padding: 15px 20px;
+  width: 100%;
+  max-width: 600px;
+  border: 2px solid #ff6f61;
+  border-radius: 30px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #ff3b2f;
+  box-shadow: 0 0 8px rgba(255, 59, 47, 0.3);
+  outline: none;
+}
+
+.search-btn {
+  background-color: #ff6f61;
   color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.navbar a {
-  color: white;
-  text-decoration: none;
+.search-btn:hover {
+  background-color: #ff3b2f;
+  transform: scale(1.05);
 }
 
-.navbar a:hover {
-  text-decoration: underline;
+.profiles-section {
+  margin-top: 60px;
 }
 
-.search-bar {
-  margin: 20px 0;
-  display: flex;
-  gap: 10px;
+h2 {
+  color: #333;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 30px;
 }
 
-.profile-list {
+.no-profiles {
+  color: #999;
+  font-size: 18px;
+  font-style: italic;
+}
+
+.profiles-grid {
   display: grid;
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
 }
 
 .profile-card {
-  border: 1px solid #ccc;
-  padding: 15px;
-  background-color: white;
-  border-radius: 5px;
+  background-color: #ffffff;
+  border: 2px solid #ff6f61;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-primary {
-  background-color: #007bff;
+.profile-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.profile-content p {
+  margin: 12px 0;
+  color: #555;
+  font-size: 16px;
+}
+
+.profile-content strong {
+  color: #333;
+}
+
+.view-details-btn {
+  display: inline-block;
+  background-color: #ff6f61;
   color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 12px 25px;
+  border-radius: 30px;
   text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn-secondary:hover {
-  background-color: #5a6268;
+.view-details-btn:hover {
+  background-color: #ff3b2f;
+  transform: scale(1.05);
 }
 </style>
-

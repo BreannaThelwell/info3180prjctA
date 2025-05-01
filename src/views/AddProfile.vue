@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="add-profile-page">
         <!--Form Title to create a new form-->
       <h2>Add a New Profile</h2>
-      <form @submit.prevent="submitProfile">
+      <form @submit.prevent="submitProfile" class="add-profile-form">
 
         <!--Text inputs are here-->
         <input v-model="description" placeholder="Description" required>
@@ -93,3 +93,86 @@
     }
   }
   </script>
+
+<style scoped>
+.add-profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fefefe, #ffe0dc);
+  padding: 20px;
+}
+
+.add-profile-form {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.add-profile-form h2 {
+  color: #ff6f61;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+
+.add-profile-form input,
+.add-profile-form select,
+.add-profile-form textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ff6f61;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-profile-form input:focus,
+.add-profile-form select:focus,
+.add-profile-form textarea:focus {
+  border-color: #ff3b2f;
+  box-shadow: 0 0 8px rgba(255, 59, 47, 0.3);
+  outline: none;
+}
+
+.add-profile-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.add-profile-form label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+}
+
+.add-profile-form button {
+  background-color: #ff6f61;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.add-profile-form button:hover {
+  background-color: #ff3b2f;
+  transform: scale(1.05);
+}
+</style>

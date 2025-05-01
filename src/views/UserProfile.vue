@@ -51,65 +51,82 @@ export default {
 
 <style scoped>
 .user-profile {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  font-family: 'Poppins', sans-serif;
 }
 
 h2 {
   text-align: center;
-  color: #333;
+  color: #ff6f61;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 30px;
 }
 
 .profile-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border: 2px solid #ff6f61;
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
 }
 
 .profile-card p {
-  margin: 0 0 10px;
+  margin: 12px 0;
+  color: #555;
+  font-size: 16px;
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: #ff6f61;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: #ff3b2f;
+  transform: scale(1.05);
 }
 
 .matches-section {
-  margin-top: 20px;
-  padding: 15px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+  padding: 25px;
+  background: #ffffff;
+  border: 2px solid #ff6f61;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .matches-section h3 {
-  margin-bottom: 10px;
-  color: #333;
+  color: #ff6f61;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .match-item {
   list-style: none;
-  padding: 5px 0;
-  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+  border-bottom: 1px solid #ffe0dc;
+  font-size: 16px;
+  color: #333;
 }
 
 .match-item:last-child {
