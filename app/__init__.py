@@ -10,8 +10,13 @@ from .config import Config #app config file
 
 
 def create_app():  #avoiding circular import
-    app = Flask(__name__)
-    CORS(app)
+    app = Flask(__name__, static_url_path='/static', static_folder='static')
+    #allow methods and headers
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+
+    app.config['UPLOAD_FOLDER'] = 'uploads/'
+    app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+
     app.config.from_object(Config)
     
     #initialize extensions
@@ -25,3 +30,5 @@ def create_app():  #avoiding circular import
     app.register_blueprint(profile_bp)
     
     return app
+
+   

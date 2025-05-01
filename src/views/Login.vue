@@ -23,17 +23,24 @@ export default {
   },
   methods: {
     async login() {
-      try {
-        const res = await axios.post('/auth/login', {
-          username: this.username,
-          password: this.password,
-        })
-        localStorage.setItem('token', res.data.token) //store jwt
-        localStorage.setItem('user_id', res.data.user.id) //store user id
-        this.$router.push('/') //redirect to homepage
-      } catch (err) {
-        alert('Login failed.')
-      }
+  try {
+    const res = await axios.post('/auth/login', {
+      username: this.username,
+      password: this.password,
+    })
+
+    if (res && res.data) {
+      localStorage.setItem('token', res.data.token)
+      localStorage.setItem('user_id', res.data.user_id)
+      this.$router.push('/')
+    } else {
+      alert('Unexpected response from server.')
+    }
+
+  } catch (err) {
+    console.error('Login error:', err)
+    alert('Login failed. Please check your credentials and try again.')
+     }
     },
   },
 }

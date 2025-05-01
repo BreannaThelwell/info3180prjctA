@@ -43,6 +43,15 @@
             class="form-input"
           />
         </div>
+        <div class="form-group">
+        <label for="photo">Upload Photo:</label>
+        <input 
+        type="file" 
+        id="photo" 
+        @change="handleFileUpload"
+        class="form-input"
+        />
+        </div>
         <button type="submit" class="register-btn">Register</button>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       </form>
@@ -59,11 +68,12 @@ import axios from '@/axios'
 export default {
   data() {
     return {
-      username: '',
-      name: '',
-      email: '',
-      password: '',
-      errorMessage: ''
+    username: '',
+    name: '',
+    email: '',
+    password: '',
+    photoFile: null, 
+    errorMessage: ''
     }
   },
   computed: {
@@ -72,17 +82,29 @@ export default {
     }
   },
   methods: {
+     handleFileUpload(event) {
+      this.photoFile = event.target.files[0];
+    },
     async register() {
       try {
-        await axios.post('/api/register', {
-          username: this.username,
-          name: this.name,
-          email: this.email,
-          password: this.password,
-        })
-        this.$router.push('/login')
+        const formData = new FormData();
+        formData.append('username', this.username);
+        formData.append('name', this.name);
+        formData.append('email', this.email);
+        formData.append('password', this.password);
+        if (this.photoFile) {
+          formData.append('photo', this.photoFile);
+        }
+
+        await axios.post('/register', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        this.$router.push('/login');
       } catch (err) {
-        this.errorMessage = err.response?.data?.message || 'Registration failed.'
+        this.errorMessage = err.response?.data?.msg || 'Registration failed.';
       }
     },
     logout() {

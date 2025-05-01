@@ -6,19 +6,46 @@
 #this file handles user registration, login, and logout 
 
 #imports 
+import os
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from werkzeug.utils import secure_filename
 from app.models import db, User
 import datetime
 
 auth_bp = Blueprint('auth', __name__) #creating bp
 
+#upload folder
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+#ensure folder exists
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+#allowed files
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+#handle file upload
+def handle_file_upload(file):
+    if file:
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(filepath)
+        return f'/uploads/{filename}'  #url path to serve it later
+    return None
+
 #route for registering as a new user
 @auth_bp.route('/api/register', methods=['POST'])
 def register():
-    data = request.get_json()
-   #check if username already exists 
+    data = request.form
+    photo = request.files.get('photo')
+    if 'photo' in request.files and photo and allowed_file(photo.filename):
+        #secure the filename before saving it
+        filename = secure_filename(photo.filename)
+        photo.save(os.path.join(UPLOAD_FOLDER, filename)) #save file to the upload folder
+    else:
+        filename = None  #no photo uploaded
+    #check if username already exists 
     if User.query.filter_by(username=data['username']).first():
         return jsonify({'msg': 'Username already exists'}), 400
     #hash password
@@ -29,7 +56,7 @@ def register():
         password=hashed,
         name=data['name'],
         email=data['email'],
-        photo=data['photo']
+        photo=filename #store filename in db
     )
     db.session.add(new_user) #adds newly registered user's info to db
     db.session.commit()
@@ -45,7 +72,7 @@ def register():
         }
     }), 201
 
-    #route for user login and jwt token generation
+#route for user login and jwt token generation
 @auth_bp.route('/api/auth/login', methods=['POST'])
 def login():
         data = request.get_json()
