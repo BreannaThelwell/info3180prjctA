@@ -20,7 +20,7 @@
             <RouterLink class="nav-link" to="/profiles/favourites">Reports</RouterLink>
           </li>
           <li class="nav-item" v-if="isAuthenticated">
-            <RouterLink class="nav-link" to="/logout">Logout</RouterLink>
+          <a class="nav-link" href="#" @click.prevent="logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -29,7 +29,14 @@
 </template>
 
 <script setup>
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
+const router = useRouter()
+
+const logout = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user_id')
+  router.push('/login')
+}
 </script>
 
 <style scoped>

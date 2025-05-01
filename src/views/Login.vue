@@ -32,6 +32,7 @@ export default {
     if (res && res.data) {
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('user_id', res.data.user_id)
+      localStorage.setItem('name', res.data.name)
       this.$router.push('/')
     } else {
       alert('Unexpected response from server.')
