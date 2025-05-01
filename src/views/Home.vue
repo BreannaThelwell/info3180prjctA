@@ -54,7 +54,7 @@ export default {
   methods: {
     async fetchProfiles() {
       try {
-        const res = await axios.get('/api/profiles')
+        const res = await axios.get('/profiles')
         this.profiles = res.data.slice(-4).reverse() // Display last 4 profiles
       } catch (err) {
         console.error('Error fetching profiles:', err.response?.data || err.message)
@@ -71,7 +71,7 @@ export default {
           else if (['male', 'female', 'other'].includes(term.toLowerCase())) params.set('sex', term.toLowerCase())
           else if (term) params.append('name', term) // Assuming name can be partial
         })
-        const res = await axios.get(`/api/search?${params.toString()}`)
+        const res = await axios.get(`/search?${params.toString()}`)
         this.profiles = res.data
       } catch (err) {
         console.error('Search failed:', err.response?.data || err.message)
