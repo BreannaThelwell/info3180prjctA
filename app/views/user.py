@@ -20,7 +20,7 @@ user_bp = Blueprint('user', __name__) #creating bp
 @jwt_required()
 def get_user_details(user_id):
     user = User.query.get_or_404(user_id)
-    profiles = Profile.query.filter_by(user_id=user_id).all()
+    profiles = Profile.query.filter_by(user_id_fk=user_id).all()
     #return limited for privacy/security and performance 
     return jsonify({
         'id': user.id,
@@ -37,10 +37,10 @@ def get_user_details(user_id):
 @user_bp.route('/api/users/<int:user_id>/favourites', methods=['GET'])
 @jwt_required()
 def get_user_favourites(user_id):
-    favs = Favourite.query.filter_by(user_id=user_id).all()
+    favs = Favourite.query.filter_by(user_id_fk=user_id).all()
     results = []
     for f in favs:
-        u = User.query.get(f.fav_user_id)
+        u = User.query.get(f.fav_user_id_fk)
         if u:
             results.append({'id': u.id, 'name': u.name})
     return jsonify(results) 
@@ -51,8 +51,8 @@ def get_user_favourites(user_id):
 @jwt_required()
 def top_favourites(n):
     top_fav_ids = db.session.query(
-        Favourite.fav_user_id, func.count().label('fav_count')
-    ).group_by(Favourite.fav_user_id).order_by(func.count().desc()).limit(n).all()
+        Favourite.fav_user_id_fk, func.count().label('fav_count')
+    ).group_by(Favourite.fav_user_id_fk).order_by(func.count().desc()).limit(n).all()
 
     results = []
     for user_id, count in top_fav_ids:
