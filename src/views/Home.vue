@@ -1,23 +1,12 @@
 <template>
-  <div>
-    <!-- Navigation Menu -->
-    <nav class="navbar">
-      <router-link to="/">Home</router-link>
-      <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
-      <router-link v-if="!isLoggedIn" to="/register">Register</router-link>
-      <router-link v-if="isLoggedIn" to="/profiles/favourites">Reports</router-link>
-      <router-link v-if="isLoggedIn" to="/logout">Logout</router-link>
-    </nav>
+  <div class="home">
+    <h1>Welcome to Jam Date!</h1>
 
-    <h1>Welcome to JamDate!</h1>
-
-    <!-- Search Bar -->
     <div class="search-bar">
       <input v-model="searchQuery" placeholder="Search by name, birth year, sex, or race..." />
-      <button @click="searchProfiles">Search</button>
+      <button @click="searchProfiles" class="btn-primary">Search</button>
     </div>
 
-    <!-- Profile List -->
     <div class="profile-list">
       <h2>Recent Profiles</h2>
       <div v-if="profiles.length === 0">No profiles found.</div>
@@ -26,7 +15,7 @@
         <p><strong>Birth Year:</strong> {{ profile.birth_year }}</p>
         <p><strong>Sex:</strong> {{ profile.sex }}</p>
         <p><strong>Race:</strong> {{ profile.race }}</p>
-        <router-link :to="`/profiles/${profile.id}`">View Details</router-link>
+        <router-link :to="`/profiles/${profile.id}`" class="btn-secondary">View Details</router-link>
       </div>
     </div>
   </div>
@@ -42,19 +31,10 @@ export default {
       searchQuery: ''
     }
   },
-  computed: {
-    isLoggedIn() {
-      return !!localStorage.getItem('token')
-    }
-  },
   methods: {
     async fetchProfiles() {
       try {
-        const token = localStorage.getItem('token');
-        const res = await axios.get('/profiles', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-        //display the last 4 profiles (most recent)
+        const res = await axios.get('/profiles')
         this.profiles = res.data.slice(-4).reverse()
       } catch (err) {
         console.error('Error fetching profiles:', err)
@@ -62,10 +42,7 @@ export default {
     },
     async searchProfiles() {
       try {
-        const token = localStorage.getItem('token')
-        const res = await axios.get(`/search?query=${this.searchQuery}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        const res = await axios.get(`/search?query=${this.searchQuery}`)
         this.profiles = res.data
       } catch (err) {
         console.error('Search failed:', err)
@@ -73,21 +50,27 @@ export default {
     }
   },
   created() {
-    this.fetchProfiles();
+    this.fetchProfiles()
   }
 }
 </script>
 
 <style scoped>
-.navbar {
-  display: flex;
-  gap: 15px;
-  background: #f5f5f5;
-  padding: 10px;
+.home {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #006400; /* Green for Jamaican theme */
 }
 
 .search-bar {
   margin: 20px 0;
+  display: flex;
+  gap: 10px;
 }
 
 .profile-list {
@@ -96,8 +79,36 @@ export default {
 }
 
 .profile-card {
-  border: 1px solid #ccc;
-  padding: 10px;
+  border: 2px solid #ffd700; /* Yellow border for Jamaican theme */
+  padding: 15px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  background-color: #000; /* Black for Jamaican theme */
+  color: #ffd700; /* Yellow text */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #006400; /* Green hover effect */
+}
+
+.btn-secondary {
+  background-color: #ffd700; /* Yellow for Jamaican theme */
+  color: #000; /* Black text */
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background-color: #006400; /* Green hover effect */
+  color: white;
 }
 </style>
 

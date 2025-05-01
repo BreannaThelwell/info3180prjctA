@@ -88,7 +88,7 @@ def get_matches(profile_id):
         match_fields = sum([
             current_profile.fav_cuisine == p.fav_cuisine,
             current_profile.fav_colour == p.fav_colour,
-            current_profile.fav_school_sibject == p.fav_school_sibject,
+            current_profile.fav_school_subject == p.fav_school_subject,
             current_profile.political == p.political,
             current_profile.religious == p.religious,
             current_profile.family_oriented == p.family_oriented

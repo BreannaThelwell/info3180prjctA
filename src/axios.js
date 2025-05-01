@@ -3,7 +3,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:5000/api', //base api endpoint
+    baseURL: 'http://localhost:5001/api', //base api endpoint
 })
 
 //automatically include jwt in headers for requests
