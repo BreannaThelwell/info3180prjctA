@@ -22,14 +22,14 @@ profile_bp = Blueprint('profile', __name__) #creating bp
 @jwt_required()
 def get_profiles():
     current_user = int(get_jwt_identity())
-    profiles = Profile.query.filter(Profile.user_id != current_user).all()
+    profiles = Profile.query.filter(Profile.user_id_fk != current_user).all()
     return jsonify([p_to_dict(p) for p in profiles])
 
 #helper method
 def p_to_dict(p):
     return {
         'id': p.id,
-        'user_id': p.user_id,
+        'user_id': p.user_id_fk,
         'description': p.description,
         'parish': p.parish,
         'biography': p.biography,
@@ -51,7 +51,7 @@ def p_to_dict(p):
 def add_profile():
     data = request.get_json()
     user_id = int(get_jwt_identity())
-    new_profile = Profile(user_id=user_id, **data)
+    new_profile = Profile(user_id_fk=user_id, **data)
     db.session.add(new_profile)
     db.session.commit()
     return jsonify({"message": "Profile created"}), 201
@@ -68,6 +68,12 @@ def get_profile_details(profile_id):
 @jwt_required()
 def add_to_favourites(user_id):
     current_user_id = int(get_jwt_identity())
+    #check if the user being favourited exists
+    target_user = User.query.get(user_id)
+    if not target_user:
+        return jsonify({"error": "User to be favourited does not exist"}), 404
+
+    #then add to favourite
     fav = Favourite(user_id_fk=current_user_id, fav_user_id_fk=user_id)
     db.session.add(fav)
     db.session.commit()

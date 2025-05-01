@@ -20,7 +20,7 @@ user_bp = Blueprint('user', __name__) #creating bp
 @jwt_required()
 def get_user_details(user_id):
     user = User.query.get_or_404(user_id)
-    profiles = Profile.query.filter_by(user_id=user_id).all()
+    profiles = Profile.query.filter_by(user_id_fk=user_id).all()
     #return limited for privacy/security and performance 
     return jsonify({
         'id': user.id,
