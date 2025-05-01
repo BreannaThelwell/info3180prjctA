@@ -26,7 +26,7 @@ class User(db.Model):
     
     def __init__(self, username, password, name, email, photo=None):
         self.username = username
-        self.password = generate_password_hash(password)
+        self.password = password
         self.name = name
         self.email = email
         self.photo = photo

@@ -29,12 +29,21 @@ def register():
         password=hashed,
         name=data['name'],
         email=data['email'],
-        photo=data['photo'],
-        date_joined=datetime.datetime.utcnow()
+        photo=data['photo']
     )
     db.session.add(new_user) #adds newly registered user's info to db
     db.session.commit()
-    return jsonify({"message": "User registered successfully"}), 201
+    return jsonify({
+        "message": "User registered successfully", 
+        "user": {
+            "id": new_user.id,
+            "username": new_user.username,
+            "name": new_user.name,
+            "email": new_user.email,
+            "photo": new_user.photo,
+            "date_joined": new_user.date_joined.strftime("%Y-%m-%d %H:%M:%S")
+        }
+    }), 201
 
     #route for user login and jwt token generation
 @auth_bp.route('/api/auth/login', methods=['POST'])
