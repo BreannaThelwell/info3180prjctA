@@ -21,7 +21,7 @@ profile_bp = Blueprint('profile', __name__) #creating bp
 @profile_bp.route('/api/profiles', methods=['GET'])
 @jwt_required()
 def get_profiles():
-    current_user = get_jwt_identity()
+    current_user = int(get_jwt_identity())
     profiles = Profile.query.filter(Profile.user_id != current_user).all()
     return jsonify([p_to_dict(p) for p in profiles])
 
@@ -50,7 +50,7 @@ def p_to_dict(p):
 @jwt_required()
 def add_profile():
     data = request.get_json()
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     new_profile = Profile(user_id=user_id, **data)
     db.session.add(new_profile)
     db.session.commit()
@@ -67,8 +67,8 @@ def get_profile_details(profile_id):
 @profile_bp.route('/api/profiles/<int:user_id>/favourite', methods=['POST'])
 @jwt_required()
 def add_to_favourites(user_id):
-    current_user_id = get_jwt_identity()
-    fav = Favourite(user_id=current_user_id, fav_user_id=user_id)
+    current_user_id = int(get_jwt_identity())
+    fav = Favourite(user_id_fk=current_user_id, fav_user_id_fk=user_id)
     db.session.add(fav)
     db.session.commit()
     return jsonify({"message": "User added to favourites"}), 201
