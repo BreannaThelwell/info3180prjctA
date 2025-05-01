@@ -34,7 +34,7 @@ def register():
     )
     db.session.add(new_user) #adds newly registered user's info to db
     db.session.commit()
-    return jsonify({"message": "User registered successfully"}), 201 
+    return jsonify({"message": "User registered successfully"}), 201
 
     #route for user login and jwt token generation
 @auth_bp.route('/api/auth/login', methods=['POST'])
@@ -44,7 +44,7 @@ def login():
         #validation
         if not user or not check_password_hash(user.password, data['password']):
             return jsonify({"message": "Invalid username or password"}), 401
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
         return jsonify({"token": access_token, "user_id": user.id}), 200
 
     #protected logout route
