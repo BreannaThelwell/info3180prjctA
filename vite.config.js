@@ -12,6 +12,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+   build: {
+    outDir: 'app/static',
+    emptyOutDir: true,
+  },
   server: {
     proxy: {
       // Proxy API requests to Flask backend on port 8080
