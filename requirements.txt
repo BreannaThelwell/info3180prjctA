@@ -6,6 +6,7 @@ Flask-Cors
 Flask-JWT-Extended
 Flask-Migrate==4.1.0
 Flask-SQLAlchemy==3.1.1
+Flask-Seeder==1.2.0
 greenlet==3.1.1
 gunicorn==23.0.0
 importlib_metadata==8.6.1
