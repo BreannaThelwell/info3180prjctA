@@ -1,6 +1,7 @@
 #initial attempt
 
 from flask import Flask
+from flask import send_from_directory #npm run build import
 from flask_cors import CORS #frontend requests
 from app.extensions import db, jwt, migrate #extensions import
 from .views.auth import auth_bp #bp import
