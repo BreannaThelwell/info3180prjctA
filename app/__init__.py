@@ -28,6 +28,11 @@ def create_app():  #avoiding circular import
     app.register_blueprint(auth_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(profile_bp)
+
+    #for render testing
+    @app.route('/')
+    def index():
+        return {'message': 'JamDate API is running'}
     
     return app
 
