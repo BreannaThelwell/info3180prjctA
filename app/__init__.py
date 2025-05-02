@@ -31,14 +31,14 @@ def create_app():  #avoiding circular import
     app.register_blueprint(user_bp)
     app.register_blueprint(profile_bp)
 
-    #for render testing
-    @app.route('/')
-    def index():
-        return send_from_directory(app.static_folder, 'index.html') 
-
-    @app.route('/assests/<path:filename>')
-    def assests(filename):
-        return app.send_from_directory(os.path.join('assets', filename))
+    #for render testing to serve static frontend
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def serve_frontend(path):
+        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return send_from_directory(app.static_folder, 'index.html')
     
     return app
 
