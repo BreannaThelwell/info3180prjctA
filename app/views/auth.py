@@ -17,7 +17,7 @@ import datetime
 auth_bp = Blueprint('auth', __name__) #creating bp
 
 #upload folder
-UPLOAD_FOLDER = 'static/uploads'
+UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 #ensure folder exists

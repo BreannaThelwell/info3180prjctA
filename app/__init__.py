@@ -14,7 +14,7 @@ def create_app():  #avoiding circular import
     #allow methods and headers
     CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
-    app.config['UPLOAD_FOLDER'] = 'uploads/'
+    app.config['UPLOAD_FOLDER'] = './uploads'
     app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
     app.config.from_object(Config)
@@ -32,7 +32,11 @@ def create_app():  #avoiding circular import
     #for render testing
     @app.route('/')
     def index():
-        return {'message': 'JamDate API is running'}
+        return send_from_directory(app.static_folder, 'index.html') 
+
+    @app.route('/assests/<path:filename>')
+    def assests(filename):
+        return app.send_from_directory(os.path.join('assets', filename))
     
     return app
 
