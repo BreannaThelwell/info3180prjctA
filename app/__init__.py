@@ -1,5 +1,6 @@
 #initial attempt
 
+import os
 from flask import Flask
 from flask import send_from_directory #npm run build import
 from flask_cors import CORS #frontend requests
