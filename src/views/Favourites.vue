@@ -6,7 +6,6 @@
         {{ u.user.name }} - Favourited {{ u.fav_count }} times
       </li>
     </ul>
-
     <h2>My Favourites</h2>
     <ul>
       <li v-for="u in myFavs" :key="u.id">{{ u.name }}</li>
@@ -33,6 +32,7 @@ export default {
   },
 }
 </script>
+
 
 <style scoped>
 .favourites-page {
@@ -72,5 +72,11 @@ export default {
 
 .favourites-page li:last-child {
   border-bottom: none;
+}
+
+.favourites-page li:hover {
+  background-color: #ffe0dc;
+  transform: translateX(10px);
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 </style>
