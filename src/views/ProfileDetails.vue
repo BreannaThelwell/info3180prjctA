@@ -1,9 +1,9 @@
- <template>
-  <div v-if="profile">
+<template>
+  <div v-if="profile" class="profile-details">
     <h3>{{ profile.name }}</h3>
     <p>{{ profile.description }}</p>
-    <!-- Heart icon (clickable) -->
-    <button @click="favouriteProfile">❤️ Favourite</button>
+    <button v-if="isAuthenticated" @click="favouriteProfile">❤️ Favourite</button>
+    <button v-else disabled>❤️ Favourite (Login required)</button>
     <button>Email Profile</button>
   </div>
 </template>
@@ -14,6 +14,11 @@ import axios from '../axios'
 export default {
   data() {
     return { profile: null }
+  },
+  computed: {
+    isAuthenticated() {
+      return !!localStorage.getItem('token')
+    }
   },
   async created() {
     const id = this.$route.params.profile_id
@@ -67,12 +72,23 @@ export default {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.profile-details button:hover {
+.profile-details button:hover:not(:disabled) {
   background-color: #ff3b2f;
   transform: scale(1.05);
 }
 
-.profile-details button.favourited {
+.profile-details button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.profile-details button {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details button:hover:not(:disabled) {
   background-color: #ff3b2f;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 </style>
