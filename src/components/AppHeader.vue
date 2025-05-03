@@ -1,3 +1,12 @@
+<script setup>
+import { useAuthStore } from '@/stores/auth';
+import { computed } from 'vue';
+
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+const userId = computed(() => authStore.userId);
+</script>
+
 <template>
   <header class="app-header">
     <nav class="navbar">
@@ -11,7 +20,7 @@
             <RouterLink class="nav-link" to="/login">Login</RouterLink>
           </li>
           <li class="nav-item" v-if="isAuthenticated">
-            <RouterLink class="nav-link" :to="`/users/${localStorage.getItem('user_id')}`">My Profile</RouterLink>
+            <RouterLink class="nav-link" :to="`/users/${userId}`">My Profile</RouterLink>
           </li>
           <li class="nav-item" v-if="isAuthenticated">
             <RouterLink class="nav-link" to="/profiles/new">Add Profile</RouterLink>
@@ -20,7 +29,7 @@
             <RouterLink class="nav-link" to="/profiles/favourites">Reports</RouterLink>
           </li>
           <li class="nav-item" v-if="isAuthenticated">
-          <a class="nav-link" href="#" @click.prevent="logout">Logout</a>
+            <RouterLink class="nav-link" to="/logout">Logout</RouterLink>
           </li>
         </ul>
       </div>
@@ -29,14 +38,11 @@
 </template>
 
 <script setup>
-import { RouterLink, useRouter } from "vue-router";
-const router = useRouter()
+import { computed } from 'vue';
+import { RouterLink } from 'vue-router';
 
-const logout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('user_id')
-  router.push('/login')
-}
+const isAuthenticated = computed(() => !!localStorage.getItem('token'));
+const userId = computed(() => localStorage.getItem('user_id') || '');
 </script>
 
 <style scoped>
