@@ -102,7 +102,7 @@ export default {
           formData.append('photo', this.photoFile)
         }
 
-        await axios.post('/api/register', formData, {
+        await axios.post('/register', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
