@@ -12,9 +12,16 @@
 </template>
 
 <script>
-import axios from '../axios'
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
+import axios from '@/axios';
 
 export default {
+  setup() {
+    const authStore = useAuthStore();
+    const router = useRouter();
+    return { authStore, router };
+  },
   data() {
     return {
       username: '',
@@ -23,29 +30,22 @@ export default {
   },
   methods: {
     async login() {
-  try {
-    const res = await axios.post('/auth/login', {
-      username: this.username,
-      password: this.password,
-    })
-
-    if (res && res.data) {
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('user_id', res.data.user_id)
-      localStorage.setItem('name', res.data.name)
-      this.$router.push('/')
-    } else {
-      alert('Unexpected response from server.')
-    }
-
-  } catch (err) {
-    console.error('Login error:', err)
-    alert('Login failed. Please check your credentials and try again.')
-     }
+      try {
+        const res = await axios.post('/auth/login', {
+          username: this.username,
+          password: this.password,
+        })
+        const { token, user } = res.data;
+        this.authStore.login(token, user.id);
+        this.router.push('/');
+      } catch (err) {
+        alert('Login failed.')
+      }
     },
   },
 }
 </script>
+
 
 <style scoped>
 .login-wrapper {
