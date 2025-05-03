@@ -1,12 +1,3 @@
-<script setup>
-import { useAuthStore } from '@/stores/auth';
-import { computed } from 'vue';
-
-const authStore = useAuthStore();
-const isAuthenticated = computed(() => authStore.isAuthenticated);
-const userId = computed(() => authStore.userId);
-</script>
-
 <template>
   <header class="app-header">
     <nav class="navbar">
@@ -38,11 +29,13 @@ const userId = computed(() => authStore.userId);
 </template>
 
 <script setup>
+import { useAuthStore } from '@/stores/auth';
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const isAuthenticated = computed(() => !!localStorage.getItem('token'));
-const userId = computed(() => localStorage.getItem('user_id') || '');
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+const userId = computed(() => authStore.userId);
 </script>
 
 <style scoped>
