@@ -5,7 +5,6 @@
       <p><strong>Description:</strong> {{ p.description }}</p>
       <button @click="matchMe(p.id)" class="btn-primary">Match Me</button>
     </div>
-
     <div v-if="matches.length" class="matches-section">
       <h3>Matches</h3>
       <ul>
@@ -48,6 +47,7 @@ export default {
   },
 }
 </script>
+
 
 <style scoped>
 .user-profile {
