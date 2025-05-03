@@ -32,13 +32,9 @@ def create_app():  #avoiding circular import
     app.register_blueprint(profile_bp)
 
     #for render testing to serve static frontend
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
-    def serve_frontend(path):
-        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-            return send_from_directory(app.static_folder, path)
-        else:
-            return send_from_directory(app.static_folder, 'index.html')
+     @app.route('/')
+    def index():
+        return {'message': 'JamDate API is running'}
     
     return app
 
