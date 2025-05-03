@@ -32,7 +32,7 @@ def create_app():  #avoiding circular import
     app.register_blueprint(profile_bp)
 
     #for render testing to serve static frontend
-     @app.route('/')
+    @app.route('/')
     def index():
         return {'message': 'JamDate API is running'}
     
