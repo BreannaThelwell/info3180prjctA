@@ -35,8 +35,8 @@ export default {
           username: this.username,
           password: this.password,
         })
-        const { token, user } = res.data;
-        this.authStore.login(token, user.id);
+        const { token, user_id } = res.data;
+        this.authStore.login(token, user_id);
         this.router.push('/');
       } catch (err) {
         alert('Login failed.')
