@@ -34,8 +34,12 @@ def create_app():  #avoiding circular import
     #for render testing to serve static frontend
     @app.route('/')
     def index():
-        return ('index.html')
-    
+        return send_from_directory('static', 'index.html')
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return send_from_directory('static', 'index.html')
+
     return app
 
    
