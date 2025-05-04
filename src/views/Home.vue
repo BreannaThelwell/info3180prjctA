@@ -29,7 +29,7 @@
               <div class="profile-image">
                 <img 
                   v-if="profile.user_photo" 
-                  :src="`./uploads/${profile.user_photo}`" 
+                  :src="`/uploads/${profile.user_photo}`" 
                   alt="Profile photo" 
                   class="avatar-img"
                 />
