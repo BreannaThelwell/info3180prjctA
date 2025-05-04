@@ -100,7 +100,7 @@ def get_matches(profile_id):
             current_profile.family_oriented == p.family_oriented
         ])
         if age_diff <= 5 and 3 <= height_diff <= 10 and match_fields >= 3:
-            matched_profiles.append(p.serialize())
+            matched_profiles.append(p_to_dict(p))
     return jsonify(matched_profiles), 200
 
 #search for profiles based on name, birth year, sex, and race
@@ -125,7 +125,8 @@ def search_profiles():
         query = query.filter(Profile.race == race)
 
     results = query.all()
-    return jsonify([p.serialize() for p in results]), 200
+    return jsonify([p_to_dict(p) for p in results]), 200
+
 
 
 
