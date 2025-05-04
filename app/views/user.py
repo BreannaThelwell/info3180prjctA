@@ -29,7 +29,10 @@ def get_user_details(user_id):
         'email': user.email,
         'photo': user.photo,
         'profiles': [{
-            'id': p.id, 'description': p.description
+            'id': p.id, 'user_name': p.user.name,  'description': p.description, 'biography': p.biography,
+            'parish': p.parish,'sex': p.sex,'race': p.race,'birth_year': p.birth_year,'height': p.height,
+            'fav_cuisine': p.fav_cuisine,'fav_colour': p.fav_colour,'fav_school_subject': p.fav_school_subject,
+            'political': p.political,'religious': p.religious,'family_oriented': p.family_oriented
         } for p in profiles]
     })
 

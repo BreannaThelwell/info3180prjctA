@@ -16,7 +16,7 @@ def create_app():  #avoiding circular import
     #allow methods and headers
     CORS(app, resources={r"/api/*": {"origins": [ "http://localhost:5173","https://jamdate-xe9i.onrender.com"] }}, supports_credentials=True)
 
-    app.config['UPLOAD_FOLDER'] = './uploads'
+    app.config['UPLOAD_FOLDER'] = '/static/uploads'
     app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
     app.config.from_object(Config)

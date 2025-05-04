@@ -2,7 +2,20 @@
   <div class="user-profile">
     <h2>My Profile</h2>
     <div v-for="p in profiles" :key="p.id" class="profile-card">
-      <p><strong>Description:</strong> {{ p.description }}</p>
+      <p><strong>Name:</strong> {{ p.user_name }}</p>
+      <p><strong>Description:</strong>{{ p.description }}</p>
+      <p><strong>Parish:</strong>{{ p.parish }}</p>
+      <p><strong>Bio:</strong> {{ p.biography }}</p>
+      <p><strong>Sex:</strong> {{ p.sex }}</p>
+      <p><strong>Race:</strong> {{ p.race }}</p>
+      <p><strong>Birth Year:</strong> {{ p.birth_year }}</p>
+      <p><strong>Height:</strong> {{ p.height }} </p>
+      <p><strong>Favourite Cuisine:</strong> {{ p.fav_cuisine }}</p>
+      <p><strong>Favourite Color:</strong> {{ p.fav_colour }}</p>
+      <p><strong>Favourite Subject:</strong> {{ p.fav_school_subject }}</p>
+      <p><strong>Political:</strong> {{ p.political }}</p>
+      <p><strong>Religious:</strong> {{ p.religious }}</p>
+      <p><strong>Family Oriented:</strong> {{ p.family_oriented}}</p>
       <button @click="matchMe(p.id)" class="btn-primary">Match Me</button>
     </div>
     <div v-if="matches.length" class="matches-section">

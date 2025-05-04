@@ -1,7 +1,21 @@
 <template>
   <div v-if="profile" class="profile-details">
     <h3>{{ profile.name }}</h3>
-    <p>{{ profile.description }}</p>
+    <p><strong>Name:</strong> {{ profile.user_name }}</p>
+    <p><strong>Description:</strong>{{ profile.description }}</p>
+    <p><strong>Parish:</strong> {{ profile.parish }}</p>
+    <p><strong>Bio:</strong> {{ profile.biography }}</p>
+    <p><strong>Sex:</strong> {{ profile.sex }}</p>
+    <p><strong>Race:</strong> {{ profile.race }}</p>
+    <p><strong>Birth Year:</strong> {{ profile.birth_year }}</p>
+    <p><strong>Height:</strong> {{ profile.height }} </p>
+    <p><strong>Favourite Cuisine:</strong> {{ profile.fav_cuisine }}</p>
+    <p><strong>Favourite Color:</strong> {{ profile.fav_colour }}</p>
+    <p><strong>Favourite Subject:</strong> {{ profile.fav_school_subject }}</p>
+    <p><strong>Political:</strong> {{ profile.political }}</p>
+    <p><strong>Religious:</strong> {{ profile.religious }}</p>
+    <p><strong>Family Oriented:</strong> {{ profile.family_oriented}}</p>
+
     <button v-if="isAuthenticated" @click="favouriteProfile">❤️ Favourite</button>
     <button v-else disabled>❤️ Favourite (Login required)</button>
     <button>Email Profile</button>
