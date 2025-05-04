@@ -2,7 +2,7 @@
 
 import os
 from flask import Flask
-from flask import send_from_directory #npm run build import
+from flask import send_from_directory, request #npm run build import
 from flask_cors import CORS #frontend requests
 from app.extensions import db, jwt, migrate #extensions import
 from .views.auth import auth_bp #bp import
@@ -12,7 +12,7 @@ from .config import Config #app config file
 
 
 def create_app():  #avoiding circular import
-    app = Flask(__name__, static_url_path='/static', static_folder='static')
+    app = Flask(__name__, static_url_path='', static_folder='static')
     #allow methods and headers
     CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
@@ -33,12 +33,12 @@ def create_app():  #avoiding circular import
 
     #for render testing to serve static frontend
     @app.route('/')
-    def index():
-        return send_from_directory('static', 'index.html')
-
-    @app.errorhandler(404)
-    def not_found(e):
-        return send_from_directory('static', 'index.html')
+    @app.route('/<path:path>')
+    def serve_vue_app(path=''):
+        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return send_from_directory(app.static_folder, 'index.html')
 
     return app
 
