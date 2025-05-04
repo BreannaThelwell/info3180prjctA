@@ -103,11 +103,11 @@ export default {
         }
 
         await axios.post('/register', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+          headers: { 'Content-Type': 'multipart/form-data' }
         })
 
+        localStorage.setItem('name', this.name)
+        localStorage.setItem('photo', URL.createObjectURL(this.photoFile))
         this.$router.push('/login')
       } catch (err) {
         this.errorMessage = err.response?.data?.msg || err.response?.data?.message || 'Registration failed.'

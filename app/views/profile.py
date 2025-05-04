@@ -120,13 +120,12 @@ def search_profiles():
     if birth_year:
         query = query.filter(Profile.birth_year == int(birth_year))
     if sex:
-        query = query.filter(Profile.sex == sex)
+        query = query.filter(Profile.sex.ilike(f"%{sex}%"))
     if race:
-        query = query.filter(Profile.race == race)
+        query = query.filter(Profile.race.ilike(f"%{race}%"))
 
     results = query.all()
     return jsonify([p_to_dict(p) for p in results]), 200
-
 
 
 

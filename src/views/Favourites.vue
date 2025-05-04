@@ -2,9 +2,9 @@
   <div class="favourites-page">
     <h2>Top 20 Most Favourited Users</h2>
     <ul>
-      <li v-for="u in topFavs" :key="u.user.id">
-        {{ u.user.name }} - Favourited {{ u.fav_count }} times
-      </li>
+    <li v-for="u in topFavs" :key="u.id">
+      {{ u.name }} - Favourited {{ u.count }} times
+    </li>
     </ul>
     <h2>My Favourites</h2>
     <ul>
