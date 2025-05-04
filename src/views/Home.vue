@@ -26,15 +26,18 @@
         <div class="profiles-grid">
           <div v-for="profile in profiles" :key="profile.id" class="profile-card">
             <div class="profile-content">
-              <p><strong>Name:</strong> {{ profile.name }}</p>
-              <p><strong>Birth Year:</strong> {{ profile.birth_year }}</p>
-              <p><strong>Sex:</strong> {{ profile.sex }}</p>
-              <p><strong>Race:</strong> {{ profile.race }}</p>
-              <p><strong>Parish:</strong> {{ profile.parish }}</p>
-              <p><strong>Biography:</strong> {{ profile.biography }}</p>
-              <p><strong>Favorite Cuisine:</strong> {{ profile.fav_cuisine }}</p>
-            </div>
-            <router-link :to="`/profiles/${profile.id}`" class="view-details-btn">View Details</router-link>
+              <div v-for="profile in profiles" :key="profile.id" class="profile-card">
+              <div class="profile-image">
+              <img 
+              v-if="profile.photo" 
+              :src="`/static/uploads/${profile.photo}`" 
+              alt="Profile photo" 
+              class="avatar-img"
+              />
+              <i v-else class="fas fa-user-circle default-avatar"></i>
+              </div>
+              <p class="profile-name">{{ profile.name }}</p>
+              <router-link :to="`/profiles/${profile.id}`" class="view-details-btn">View Details</router-link>
           </div>
         </div>
       </div>
@@ -242,5 +245,30 @@ h2 {
 .view-details-btn:hover {
   background-color: #ff3b2f;
   transform: scale(1.05);
+} 
+.profile-image {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff6f61;
+}
+
+.default-avatar {
+  font-size: 100px;
+  color: #ccc;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
 }
 </style>
