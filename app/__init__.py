@@ -31,6 +31,11 @@ def create_app():  #avoiding circular import
     app.register_blueprint(user_bp)
     app.register_blueprint(profile_bp)
 
+    #uploads
+    @app.route('/uploads/<filename>')
+    def uploaded_file(filename):
+        return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
     #for render testing to serve static frontend
     @app.route('/')
     @app.route('/<path:path>')
