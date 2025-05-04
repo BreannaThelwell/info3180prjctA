@@ -28,8 +28,8 @@
             <div class="profile-content">
               <div class="profile-image">
                 <img 
-                  v-if="profile.photo" 
-                  :src="`/static/uploads/${profile.photo}`" 
+                  v-if="profile.user_photo" 
+                  :src="`./uploads/${profile.user_photo}`" 
                   alt="Profile photo" 
                   class="avatar-img"
                 />
@@ -260,10 +260,11 @@ h2 {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #ff6f61;
+  display: block;
 }
 
 .default-avatar {
-  font-size: 100px;
+  font-size: 50px;
   color: #ccc;
 }
 

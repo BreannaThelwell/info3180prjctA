@@ -27,6 +27,7 @@ def get_profiles():
 
 #helper method
 def p_to_dict(p):
+    user = User.query.get(p.user_id_fk)
     return {
         'id': p.id,
         'user_id': p.user_id_fk,
@@ -42,7 +43,9 @@ def p_to_dict(p):
         'fav_school_subject': p.fav_school_subject,
         'political': p.political,
         'religious': p.religious,
-        'family_oriented': p.family_oriented
+        'family_oriented': p.family_oriented,
+        'user_name': user.name if user else '',
+        'user_photo': user.photo if user else ''
     }
 
 #create a new profile 
