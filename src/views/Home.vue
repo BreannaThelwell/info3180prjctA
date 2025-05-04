@@ -6,7 +6,7 @@
       <p class="subtitle">Find your perfect match today.</p>
 
       <!-- Search Bar -->
-      <div class="search-container">
+      <div class="search-container" v-if="isLoggedIn">
         <input 
           v-model="searchQuery" 
           placeholder="Search by name, birth year, sex, or race..." 
@@ -15,9 +15,12 @@
         />
         <button @click="searchProfiles" class="search-btn">Search</button>
       </div>
+      <div v-else class="auth-warning">
+        <p>Please <router-link to="/login">log in</router-link> to view profiles and search.</p>
+      </div>
 
       <!-- Recent Profiles -->
-      <div class="profiles-section">
+      <div class="profiles-section" v-if="isLoggedIn">
         <h2>Recent Profiles</h2>
         <div v-if="profiles.length === 0" class="no-profiles">No profiles found.</div>
         <div class="profiles-grid">
@@ -27,6 +30,9 @@
               <p><strong>Birth Year:</strong> {{ profile.birth_year }}</p>
               <p><strong>Sex:</strong> {{ profile.sex }}</p>
               <p><strong>Race:</strong> {{ profile.race }}</p>
+              <p><strong>Parish:</strong> {{ profile.parish }}</p>
+              <p><strong>Biography:</strong> {{ profile.biography }}</p>
+              <p><strong>Favorite Cuisine:</strong> {{ profile.fav_cuisine }}</p>
             </div>
             <router-link :to="`/profiles/${profile.id}`" class="view-details-btn">View Details</router-link>
           </div>
@@ -63,13 +69,12 @@ export default {
     },
     async searchProfiles() {
       try {
-        // Parse searchQuery into parameters
         const params = new URLSearchParams()
         const terms = this.searchQuery.split(',').map(t => t.trim())
         terms.forEach(term => {
           if (/^\d{4}$/.test(term)) params.set('birth_year', term)
           else if (['male', 'female', 'other'].includes(term.toLowerCase())) params.set('sex', term.toLowerCase())
-          else if (term) params.append('name', term) // Assuming name can be partial
+          else if (term) params.append('name', term)
         })
         const res = await axios.get(`/search?${params.toString()}`)
         this.profiles = res.data
@@ -85,7 +90,9 @@ export default {
     }
   },
   created() {
-    this.fetchProfiles()
+    if (this.isLoggedIn) {
+      this.fetchProfiles()
+    }
   }
 }
 </script>
@@ -115,6 +122,22 @@ h1 {
   color: #666;
   font-size: 24px;
   margin-bottom: 40px;
+}
+
+.auth-warning {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #555;
+}
+
+.auth-warning a {
+  color: #ff6f61;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-warning a:hover {
+  color: #ff3b2f;
 }
 
 .search-container {
