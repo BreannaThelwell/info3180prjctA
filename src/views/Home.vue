@@ -26,24 +26,26 @@
         <div class="profiles-grid">
           <div v-for="profile in profiles" :key="profile.id" class="profile-card">
             <div class="profile-content">
-              <div v-for="profile in profiles" :key="profile.id" class="profile-card">
               <div class="profile-image">
-              <img 
-              v-if="profile.photo" 
-              :src="`/static/uploads/${profile.photo}`" 
-              alt="Profile photo" 
-              class="avatar-img"
-              />
-              <i v-else class="fas fa-user-circle default-avatar"></i>
+                <img 
+                  v-if="profile.photo" 
+                  :src="`/static/uploads/${profile.photo}`" 
+                  alt="Profile photo" 
+                  class="avatar-img"
+                />
+                <i v-else class="fas fa-user-circle default-avatar"></i>
               </div>
               <p class="profile-name">{{ profile.name }}</p>
               <router-link :to="`/profiles/${profile.id}`" class="view-details-btn">View Details</router-link>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
+      </div> 
+
+    </section> 
+  </div> 
 </template>
+
 
 <script>
 import axios from '@/axios'
